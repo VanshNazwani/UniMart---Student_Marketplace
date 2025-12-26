@@ -1,0 +1,45 @@
+{
+  "name": "unimart-student-marketplace",
+  "version": "0.1.0",
+  "private": true,
+  "description": "This repository is a scaffold for the UniMart student marketplace. It includes a Next.js 14 (App Router) + TypeScript starter, Prisma schema, API routes for authentication (NextAuth), products, Stripe checkout, Cloudinary upload, Tailwind CSS, and Zod validation.",
+  "homepage": "https://github.com/VanshNazwani/UniMart---Student_Marketplace#readme",
+  "bugs": {
+    "url": "https://github.com/VanshNazwani/UniMart---Student_Marketplace/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VanshNazwani/UniMart---Student_Marketplace.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "next.config.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "prisma": "prisma"
+  },
+  "dependencies": {
+    "@next-auth/prisma-adapter": "1.0.4",
+    "@prisma/client": "5.10.1",
+    "autoprefixer": "10.4.14",
+    "bcryptjs": "2.4.3",
+    "cloudinary": "1.32.0",
+    "next": "^13.4.12",
+    "next-auth": "4.22.1",
+    "postcss": "8.4.24",
+    "prisma": "5.10.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "stripe": "12.10.0",
+    "tailwindcss": "latest",
+    "typescript": "5.2.2",
+    "zod": "3.22.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/react": "19.2.7"
+  }
+}

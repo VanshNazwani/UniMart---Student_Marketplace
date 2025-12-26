@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ProductStatus {
+  PENDING
+  APPROVED
+  SOLD
+  REJECTED
+}
+
+model User {
+  id         String   @id @default(cuid())
+  name       String?
+  email      String   @unique
+  password   String?
+  role       Role     @default(USER)
+  verified   Boolean  @default(false)
+  suspended  Boolean  @default(false)
+  chats      Chat[]
+  products   Product[]
+  orders     Order[]  @relation("buyer")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model VerificationToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      String   // e.g., "verify", "reset"
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id          String        @id @default(cuid())
+  title       String
+  description String
+  price       Float
+  category    String
+  condition   String
+  images      String[]
+  seller      User          @relation(fields: [sellerId], references: [id])
+  sellerId    String
+  status      ProductStatus @default(PENDING)
+  orders      Order[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Order {
+  id            String   @id @default(cuid())
+  buyer         User     @relation("buyer", fields: [buyerId], references: [id])
+  buyerId       String
+  product       Product  @relation(fields: [productId], references: [id])
+  productId     String
+  amount        Float
+  paymentStatus String
+  transactionId String?
+  createdAt     DateTime @default(now())
+}
+
+model Chat {
+  id         String    @id @default(cuid())
+  participants User[]  @relation("chatParticipants")
+  messages   Message[]
+  createdAt  DateTime  @default(now())
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    String
+  sender    User     @relation(fields: [senderId], references: [id])
+  senderId  String
+  body      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Wishlist {
+  id       String   @id @default(cuid())
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String
+  product  Product  @relation(fields: [productId], references: [id])
+  productId String
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  title     String
+  body      String
+  read      Boolean  @default(false)
+  meta      Json?
+  createdAt DateTime @default(now())
+}
